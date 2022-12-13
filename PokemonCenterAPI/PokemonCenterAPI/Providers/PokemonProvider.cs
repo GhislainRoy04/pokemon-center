@@ -2,6 +2,7 @@ using System.Data;
 using PokemonCenterAPI.DTO;
 using PokemonCenterAPI.Connector;
 using PokemonCenterAPI.Utils;
+using System.Linq;
 
 namespace PokemonCenterAPI.Providers{
 
@@ -26,7 +27,7 @@ namespace PokemonCenterAPI.Providers{
         }
 
         public List<PokemonDTO> GetAllByTypes(List<string> types){
-            string cmd = $"SELECT *,IF(Legendary = 'True', 1, 0) as LegendaryBool FROM pokemon WHERE Type1 IN ({types}) OR Type2 IN ({types});";
+            string cmd = $"SELECT *,IF(Legendary = 'True', 1, 0) as LegendaryBool FROM pokemon WHERE Type1 IN ({GetTypeDelimitedString(types)}) OR Type2 IN ({GetTypeDelimitedString(types)});";
         
             DataTable dt = DAL.GetDataTable(cmd, connector.GetConnectionString());
             List<PokemonDTO> pokemons = new List<PokemonDTO>();
@@ -77,7 +78,8 @@ namespace PokemonCenterAPI.Providers{
         }
 
         public int Create(PokemonDTO pokemon){
-            string cmd = $"INSERT INTO pokemon (Id, Name, Type1, Type2, Total, HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed, Generation, Legendary) VALUES ({pokemon.Id}, '{pokemon.Name}', '{pokemon.Type1}', '{pokemon.Type2}', {pokemon.GetTotal()}, {pokemon.Hp}, {pokemon.Attack}, {pokemon.Defense}, {pokemon.SpecialAttack}, {pokemon.SpecialDefense}, {pokemon.Speed}, {pokemon.Generation}, {pokemon.Legendary}); SELECT LAST_INSERT_ID();";
+            string legendaryString = pokemon.Legendary ? "True" : "False";
+            string cmd = $"INSERT INTO pokemon (Id, Name, Type1, Type2, Total, HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed, Generation, Legendary) VALUES ({pokemon.Id}, '{pokemon.Name}', '{pokemon.Type1}', '{pokemon.Type2}', {pokemon.GetTotal()}, {pokemon.Hp}, {pokemon.Attack}, {pokemon.Defense}, {pokemon.SpecialAttack}, {pokemon.SpecialDefense}, {pokemon.Speed}, {pokemon.Generation}, '{legendaryString}'); SELECT {pokemon.Id}";
             return DAL.Create(cmd, connector.GetConnectionString());
         }
 
@@ -89,6 +91,10 @@ namespace PokemonCenterAPI.Providers{
         public void Delete(int id){
             string cmd = $"DELETE FROM pokemon WHERE Id = {id};";
             DAL.Delete(cmd, connector.GetConnectionString());
+        }
+
+        private string GetTypeDelimitedString(List<string> types){
+            return string.Format("'{0}'",  string.Join("','", types.Select(type => type.Replace("'", "''"))));
         }
 
         private PokemonDTO PokemonMapper(DataRow row){

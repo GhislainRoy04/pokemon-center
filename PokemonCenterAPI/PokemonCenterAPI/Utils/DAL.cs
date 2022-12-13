@@ -27,7 +27,8 @@ namespace PokemonCenterAPI.Utils{
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandTimeout = 1000;
                 connection.Open();
-                return Convert.ToInt32(cmd.ExecuteScalar());
+                int id = Convert.ToInt32(cmd.ExecuteScalar());
+                return id;
             }
         }
 
@@ -37,7 +38,8 @@ namespace PokemonCenterAPI.Utils{
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandTimeout = 1000;
                 connection.Open();
-                return (bool)cmd.ExecuteScalar();
+                cmd.ExecuteScalar();
+                return true;
             }
         }
 
