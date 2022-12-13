@@ -8,4 +8,6 @@ Follow up with running `dotnet restore` on the same level as the `.csproj` file.
 Once that has been run, you can start the API by using `dotnet run`
 You can test the API via Swagger if you want. The url should be https://localhost:7100/swagger
 
+Created by Ghislain Roy
+
 Have fun!
