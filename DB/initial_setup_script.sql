@@ -17,6 +17,9 @@ CREATE TABLE pokemon(
     Legendary VARCHAR(250) NOT NULL
 );
 
+CREATE USER 'testUser'@'localhost' IDENTIFIED BY 'Test1234';
+GRANT SELECT, CREATE, INSERT, UPDATE, DELETE ON pokemoncenter.pokemon TO 'testUser'@'localhost';
+
 -- Put the path to where it's allowed to upload. Can be shown with SHOW VARIABLES LIKE "secure_file_priv"; command
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/pokemon.csv'
 INTO TABLE pokemon
