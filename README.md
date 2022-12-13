@@ -12,6 +12,7 @@ You can test the API via Swagger if you want. The url should be https://localhos
 
 Alternatively, you can open the solution in Visual Studio, restore the nuget packages and launch the API that way.
 
+Have fun!
+
 Created by Ghislain Roy
 
-Have fun!
