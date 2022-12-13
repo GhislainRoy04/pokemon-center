@@ -1,5 +1,6 @@
 using PokemonCenterAPI.Connector;
 using PokemonCenterAPI.Providers;
+using PokemonCenterAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IDataConnector, DataConnector>();
 
 builder.Services.AddTransient<IPokemonProvider, PokemonProvider>();
+
+builder.Services.AddTransient<IPokemonService, PokemonService>();
 
 var app = builder.Build();
 
