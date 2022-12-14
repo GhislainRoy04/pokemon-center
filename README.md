@@ -25,5 +25,5 @@ Add Logging.
 Add try/catch for error handling.
 Add validation for sql injection on the provider level.
 Add better handling of ' on the provider level.
-Add a protect Eevee validation method to prevent users from modifying and deleting the best pokemon.
+Add a protect Eevee validation method to prevent users from modifying or deleting the best pokemon.
 ```
